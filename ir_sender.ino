@@ -36,23 +36,23 @@
 #include <avr/sleep.h>
 
 // The IR_MODULATION is given in KhZ
-#define IR_MODULATION_KHZ 38
+const byte IR_MODULATION_KHZ = 38;
 
-#define BURST_LEN 20
-#define SPACE_LEN 20
+const byte BURST_LEN = 20;
+const byte SPACE_LEN = 20;
 
 ISR (TIMER1_COMPA_vect) {
     // count counts the number of interrupts and generate the modulation
-    static uint8_t count = 0;
+    static byte count = 0;
 
     // For the feedback, we want a blinking LED with a short duty cycle. It
     // should look like a heartbeat. So we aim at 60-80 bpm.
     // For 60 bpm, the period will need 2 * 38000 ticks. This is a large
-    // number and would require a UINT32. But Operations on 32 bits are
-    // expensive on the Arduino, so we decided to use 3 UINT8 variables:
-    static uint8_t heart_beat0 = 0;
-    static uint8_t heart_beat1 = 0;
-    static uint8_t heart_beat2 = 0;
+    // number and would require a 32 bit int. But Operations on 32 bits are
+    // expensive on the Arduino, so we decided to use 3 BYTE variables:
+    static byte heart_beat0 = 0;
+    static byte heart_beat1 = 0;
+    static byte heart_beat2 = 0;
   
     count++;
     if (count < BURST_LEN * 2) {
